@@ -12,7 +12,7 @@ h1 { margin:0; }
 .card { background:#1e293b; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.4);} 
 h2 { border-bottom:1px solid #334155; padding-bottom:6px; }
 ul { list-style:none; padding:0; }
-li { margin:12px 0; display:flex; flex-direction:column; gap:6px; border-bottom:1px solid #334155; padding-bottom:10px; }
+li { margin:10px 0; border-bottom:1px solid #334155; padding-bottom:10px; }
 .row { display:flex; justify-content:space-between; align-items:center; }
 .left { display:flex; align-items:center; gap:10px; }
 a { color:#38bdf8; text-decoration:none; }
@@ -21,21 +21,22 @@ a:hover { text-decoration:underline; }
 .easy { background:#16a34a; }
 .medium { background:#f59e0b; }
 .hard { background:#ef4444; }
-textarea { width:100%; min-height:60px; border-radius:8px; border:none; padding:8px; background:#0f172a; color:#e2e8f0; resize:vertical; }
+button { padding:5px 10px; border:none; border-radius:6px; cursor:pointer; font-size:12px; }
+.notes-btn { background:#6366f1; color:white; }
+textarea { width:100%; min-height:80px; border-radius:8px; border:none; padding:8px; background:#0f172a; color:#e2e8f0; resize:vertical; margin-top:8px; }
+.hidden { display:none; }
 .progress-bar { background:#334155; border-radius:20px; overflow:hidden; margin-top:10px; }
 .progress-fill { height:18px; background:#22c55e; width:0%; text-align:center; font-size:12px; line-height:18px; color:black; }
 .controls { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
-button { padding:6px 12px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
 .reset { background:#ef4444; color:white; }
 .filter { background:#3b82f6; color:white; }
 footer { text-align:center; padding:20px; color:#94a3b8; }
-.notes-label { font-size:12px; color:#94a3b8; }
 </style>
 </head>
 <body>
 <header>
 <h1>PANW Master Interview Tracker</h1>
-<p>Progress + Daily Revision Notes</p>
+<p>Progress + Click-to-View Notes</p>
 </header>
 
 <div class="container">
@@ -56,7 +57,7 @@ footer { text-align:center; padding:20px; color:#94a3b8; }
 
 </div>
 
-<footer>Write the approach. Re-read weekly. Own the pattern.</footer>
+<footer>Write the approach. Re-read weekly. Master it.</footer>
 
 <script>
 const questions = {
@@ -137,22 +138,27 @@ let badge=document.createElement("span");
 badge.className="badge "+q.d;
 badge.textContent=q.d.toUpperCase();
 
-left.appendChild(cb);
-left.appendChild(link);
-row.appendChild(left);
-row.appendChild(badge);
-
-let notesLabel=document.createElement("div");
-notesLabel.className="notes-label";
-notesLabel.textContent="Your Approach Notes:";
+let notesBtn=document.createElement("button");
+notesBtn.className="notes-btn";
+notesBtn.textContent="Notes";
 
 let textarea=document.createElement("textarea");
+textarea.className="hidden";
 textarea.value=localStorage.getItem(q.t+"-notes")||"";
 textarea.placeholder="Write the key idea, pattern, edge cases...";
 textarea.oninput=()=>{localStorage.setItem(q.t+"-notes",textarea.value);};
 
+notesBtn.onclick=()=>{
+textarea.classList.toggle("hidden");
+};
+
+left.appendChild(cb);
+left.appendChild(link);
+left.appendChild(notesBtn);
+row.appendChild(left);
+row.appendChild(badge);
+
 li.appendChild(row);
-li.appendChild(notesLabel);
 li.appendChild(textarea);
 ul.appendChild(li);
 });
