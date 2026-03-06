@@ -1,221 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Palo Alto Networks - Interview Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
-        header {
-            background-color: #1e293b;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 { margin: 0; }
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .card {
-            background-color: #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        h2 {
-            border-bottom: 1px solid #334155;
-            padding-bottom: 8px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            margin: 8px 0;
-        }
-        input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-        .progress-bar {
-            width: 100%;
-            background-color: #334155;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .progress-fill {
-            height: 20px;
-            background-color: #22c55e;
-            width: 0%;
-            text-align: center;
-            font-size: 12px;
-            line-height: 20px;
-            color: black;
-        }
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        button {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .reset { background-color: #ef4444; color: white; }
-        .filter { background-color: #3b82f6; color: white; }
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #94a3b8;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PANW Master Interview Tracker</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#0f172a; color:#e2e8f0; }
+header { background:#1e293b; padding:20px; text-align:center; }
+h1 { margin:0; }
+.container { max-width:1100px; margin:20px auto; padding:20px; }
+.card { background:#1e293b; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.4);} 
+h2 { border-bottom:1px solid #334155; padding-bottom:6px; }
+ul { list-style:none; padding:0; }
+li { margin:8px 0; display:flex; align-items:center; justify-content:space-between; }
+.left { display:flex; align-items:center; gap:10px; }
+a { color:#38bdf8; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.badge { padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; }
+.easy { background:#16a34a; }
+.medium { background:#f59e0b; }
+.hard { background:#ef4444; }
+.progress-bar { background:#334155; border-radius:20px; overflow:hidden; margin-top:10px; }
+.progress-fill { height:18px; background:#22c55e; width:0%; text-align:center; font-size:12px; line-height:18px; color:black; }
+.controls { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
+button { padding:6px 12px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+.reset { background:#ef4444; color:white; }
+.filter { background:#3b82f6; color:white; }
+footer { text-align:center; padding:20px; color:#94a3b8; }
+</style>
 </head>
 <body>
-
 <header>
-    <h1>PANW Interview Question Tracker</h1>
-    <p>Track Your Progress. Master the Patterns.</p>
+<h1>PANW Master Interview Tracker</h1>
+<p>All Screenshot + PANW Tagged + CSV Questions (Blind 75 Style)</p>
 </header>
 
 <div class="container">
 
-    <div class="card">
-        <div class="controls">
-            <button class="filter" onclick="filterStatus('all')">Show All</button>
-            <button class="filter" onclick="filterStatus('completed')">Completed</button>
-            <button class="filter" onclick="filterStatus('pending')">Pending</button>
-            <button class="reset" onclick="resetProgress()">Reset Progress</button>
-        </div>
-        <strong>Overall Progress</strong>
-        <div class="progress-bar">
-            <div id="progressFill" class="progress-fill">0%</div>
-        </div>
-    </div>
+<div class="card">
+<div class="controls">
+<button class="filter" onclick="filterDifficulty('all')">All</button>
+<button class="filter" onclick="filterDifficulty('easy')">Easy</button>
+<button class="filter" onclick="filterDifficulty('medium')">Medium</button>
+<button class="filter" onclick="filterDifficulty('hard')">Hard</button>
+<button class="reset" onclick="resetProgress()">Reset Progress</button>
+</div>
+<strong>Overall Progress</strong>
+<div class="progress-bar"><div id="overallProgress" class="progress-fill">0%</div></div>
+</div>
 
-    <div id="questions"></div>
+<div id="content"></div>
 
 </div>
 
-<footer>
-    Stay consistent. Re-solve. Own the pattern.
-</footer>
+<footer>Be consistent. Re-solve weekly. Master the pattern.</footer>
 
 <script>
-    const data = {
-        "Arrays / Sliding Window": [
-            "Find the Longest Equal Subarray",
-            "Maximum Length of a Concatenated String with Unique Characters",
-            "Merge Sorted Array",
-            "Sliding Window Maximum",
-            "Meeting Rooms"
-        ],
-        "Strings": [
-            "Longest Substring Without Repeating Characters",
-            "Longest Palindromic Substring",
-            "String Compression",
-            "Restore IP Addresses",
-            "Word Break",
-            "Top K Frequent Words"
-        ],
-        "Linked List": [
-            "Merge Two Sorted Lists"
-        ],
-        "Stack": [
-            "Min Stack",
-            "Basic Calculator"
-        ],
-        "HashMap / Design": [
-            "Design HashMap",
-            "Insert Delete GetRandom O(1)",
-            "LRU Cache"
-        ],
-        "Binary Search": [
-            "Median of Two Sorted Arrays",
-            "Search in Rotated Sorted Array"
-        ],
-        "Trees": [
-            "Binary Tree Level Order Traversal",
-            "Invert Binary Tree"
-        ]
-    };
+const questions = {
+"Arrays / Sliding Window": [
+{t:"Two Sum",d:"easy",l:"https://leetcode.com/problems/two-sum/"},
+{t:"Find the Longest Equal Subarray",d:"medium",l:"https://leetcode.com/problems/find-the-longest-equal-subarray/"},
+{t:"Sliding Window Maximum",d:"hard",l:"https://leetcode.com/problems/sliding-window-maximum/"},
+{t:"Merge Sorted Array",d:"easy",l:"https://leetcode.com/problems/merge-sorted-array/"},
+{t:"Meeting Rooms",d:"easy",l:"https://leetcode.com/problems/meeting-rooms/"},
+{t:"Maximum Length of a Concatenated String with Unique Characters",d:"medium",l:"https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/"}
+],
+"Strings": [
+{t:"Longest Substring Without Repeating Characters",d:"medium",l:"https://leetcode.com/problems/longest-substring-without-repeating-characters/"},
+{t:"String Compression",d:"medium",l:"https://leetcode.com/problems/string-compression/"},
+{t:"Group Anagrams",d:"medium",l:"https://leetcode.com/problems/group-anagrams/"},
+{t:"Integer to Roman",d:"medium",l:"https://leetcode.com/problems/integer-to-roman/"},
+{t:"Longest Palindromic Substring",d:"medium",l:"https://leetcode.com/problems/longest-palindromic-substring/"},
+{t:"Restore IP Addresses",d:"medium",l:"https://leetcode.com/problems/restore-ip-addresses/"}
+],
+"Linked List": [
+{t:"Merge Two Sorted Lists",d:"easy",l:"https://leetcode.com/problems/merge-two-sorted-lists/"},
+{t:"LRU Cache",d:"medium",l:"https://leetcode.com/problems/lru-cache/"}
+],
+"Stack": [
+{t:"Min Stack",d:"medium",l:"https://leetcode.com/problems/min-stack/"},
+{t:"Valid Parentheses",d:"easy",l:"https://leetcode.com/problems/valid-parentheses/"},
+{t:"Basic Calculator",d:"hard",l:"https://leetcode.com/problems/basic-calculator/"}
+],
+"HashMap / Design": [
+{t:"Design HashMap",d:"easy",l:"https://leetcode.com/problems/design-hashmap/"},
+{t:"Insert Delete GetRandom O(1)",d:"medium",l:"https://leetcode.com/problems/insert-delete-getrandom-o1/"},
+{t:"Top K Frequent Words",d:"medium",l:"https://leetcode.com/problems/top-k-frequent-words/"}
+],
+"Binary Search": [
+{t:"Median of Two Sorted Arrays",d:"hard",l:"https://leetcode.com/problems/median-of-two-sorted-arrays/"},
+{t:"Search in Rotated Sorted Array",d:"medium",l:"https://leetcode.com/problems/search-in-rotated-sorted-array/"}
+],
+"Trees / Graphs": [
+{t:"Binary Tree Level Order Traversal",d:"medium",l:"https://leetcode.com/problems/binary-tree-level-order-traversal/"},
+{t:"Shortest Path in Binary Matrix",d:"medium",l:"https://leetcode.com/problems/shortest-path-in-binary-matrix/"}
+],
+"Dynamic Programming": [
+{t:"Word Break",d:"medium",l:"https://leetcode.com/problems/word-break/"},
+{t:"Minimum Path Sum",d:"medium",l:"https://leetcode.com/problems/minimum-path-sum/"}
+]
+};
 
-    const container = document.getElementById("questions");
+const container=document.getElementById("content");
 
-    function render() {
-        container.innerHTML = "";
-        for (let category in data) {
-            const card = document.createElement("div");
-            card.className = "card";
-            const title = document.createElement("h2");
-            title.textContent = category;
-            card.appendChild(title);
+function render(){
+container.innerHTML="";
+for(let category in questions){
+let card=document.createElement("div");
+card.className="card";
+let title=document.createElement("h2");
+title.textContent=category;
+card.appendChild(title);
+let ul=document.createElement("ul");
+questions[category].forEach(q=>{
+let li=document.createElement("li");
+li.setAttribute("data-difficulty",q.d);
+let left=document.createElement("div");
+left.className="left";
+let cb=document.createElement("input");
+cb.type="checkbox";
+cb.checked=localStorage.getItem(q.t)==="true";
+cb.onchange=()=>{localStorage.setItem(q.t,cb.checked);updateProgress();};
+let link=document.createElement("a");
+link.href=q.l; link.target="_blank"; link.textContent=q.t;
+let badge=document.createElement("span");
+badge.className="badge "+q.d;
+badge.textContent=q.d.toUpperCase();
+left.appendChild(cb);
+left.appendChild(link);
+li.appendChild(left);
+li.appendChild(badge);
+ul.appendChild(li);
+});
+card.appendChild(ul);
+container.appendChild(card);
+}
+updateProgress();
+}
 
-            const ul = document.createElement("ul");
-            data[category].forEach(q => {
-                const li = document.createElement("li");
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.id = q;
-                checkbox.checked = localStorage.getItem(q) === "true";
-                checkbox.onchange = () => {
-                    localStorage.setItem(q, checkbox.checked);
-                    updateProgress();
-                };
-                li.appendChild(checkbox);
-                li.appendChild(document.createTextNode(q));
-                ul.appendChild(li);
-            });
-            card.appendChild(ul);
-            container.appendChild(card);
-        }
-        updateProgress();
-    }
+function updateProgress(){
+let total=document.querySelectorAll("input[type='checkbox']").length;
+let done=document.querySelectorAll("input[type='checkbox']:checked").length;
+let percent=Math.round((done/total)*100);
+let bar=document.getElementById("overallProgress");
+bar.style.width=percent+"%";
+bar.textContent=percent+"%";
+}
 
-    function updateProgress() {
-        const total = document.querySelectorAll("input[type='checkbox']").length;
-        const completed = document.querySelectorAll("input[type='checkbox']:checked").length;
-        const percent = Math.round((completed / total) * 100);
-        const fill = document.getElementById("progressFill");
-        fill.style.width = percent + "%";
-        fill.textContent = percent + "%";
-    }
+function filterDifficulty(level){
+document.querySelectorAll("li").forEach(li=>{
+if(level==='all'){li.style.display='flex';}
+else{li.style.display=li.getAttribute("data-difficulty")==level?'flex':'none';}
+});
+}
 
-    function resetProgress() {
-        if (confirm("Are you sure you want to reset progress?")) {
-            localStorage.clear();
-            render();
-        }
-    }
+function resetProgress(){
+if(confirm("Reset all progress?")){localStorage.clear();render();}
+}
 
-    function filterStatus(type) {
-        const checkboxes = document.querySelectorAll("input[type='checkbox']");
-        checkboxes.forEach(cb => {
-            const li = cb.parentElement;
-            if (type === 'completed') {
-                li.style.display = cb.checked ? 'block' : 'none';
-            } else if (type === 'pending') {
-                li.style.display = !cb.checked ? 'block' : 'none';
-            } else {
-                li.style.display = 'block';
-            }
-        });
-    }
-
-    render();
+render();
 </script>
 
 </body>
