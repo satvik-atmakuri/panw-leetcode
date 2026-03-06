@@ -3,138 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Palo Alto Networks - Interview Question List</title>
+    <title>Palo Alto Networks - Interview Tracker</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f6f8;
-            color: #333;
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
         header {
-            background-color: #1f2937;
-            color: white;
+            background-color: #1e293b;
             padding: 20px;
             text-align: center;
         }
-        section {
-            padding: 20px 40px;
+        h1 { margin: 0; }
+        .container {
+            max-width: 1000px;
             margin: 20px auto;
-            max-width: 900px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 0 20px;
+        }
+        .card {
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         h2 {
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 1px solid #334155;
             padding-bottom: 8px;
         }
         ul {
-            list-style-type: square;
-            padding-left: 20px;
+            list-style: none;
+            padding: 0;
         }
         li {
             margin: 8px 0;
         }
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #334155;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-fill {
+            height: 20px;
+            background-color: #22c55e;
+            width: 0%;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            color: black;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .reset { background-color: #ef4444; color: white; }
+        .filter { background-color: #3b82f6; color: white; }
         footer {
             text-align: center;
             padding: 20px;
-            font-size: 14px;
-            color: #666;
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Palo Alto Networks</h1>
-    <p>Previously Asked LeetCode Questions (Organized by Pattern)</p>
+    <h1>PANW Interview Question Tracker</h1>
+    <p>Track Your Progress. Master the Patterns.</p>
 </header>
 
-<section>
-    <h2>Arrays / Sliding Window</h2>
-    <ul>
-        <li>Find the Longest Equal Subarray</li>
-        <li>Maximum Length of a Concatenated String with Unique Characters</li>
-        <li>Merge Sorted Array</li>
-        <li>Sliding Window Maximum</li>
-        <li>Meeting Rooms</li>
-    </ul>
-</section>
+<div class="container">
 
-<section>
-    <h2>Strings</h2>
-    <ul>
-        <li>Longest Substring Without Repeating Characters</li>
-        <li>Longest Palindromic Substring</li>
-        <li>String Compression</li>
-        <li>Restore IP Addresses</li>
-        <li>Word Break</li>
-        <li>Top K Frequent Words</li>
-    </ul>
-</section>
+    <div class="card">
+        <div class="controls">
+            <button class="filter" onclick="filterStatus('all')">Show All</button>
+            <button class="filter" onclick="filterStatus('completed')">Completed</button>
+            <button class="filter" onclick="filterStatus('pending')">Pending</button>
+            <button class="reset" onclick="resetProgress()">Reset Progress</button>
+        </div>
+        <strong>Overall Progress</strong>
+        <div class="progress-bar">
+            <div id="progressFill" class="progress-fill">0%</div>
+        </div>
+    </div>
 
-<section>
-    <h2>Linked List</h2>
-    <ul>
-        <li>Merge Two Sorted Lists</li>
-    </ul>
-</section>
+    <div id="questions"></div>
 
-<section>
-    <h2>Stack</h2>
-    <ul>
-        <li>Min Stack</li>
-        <li>Basic Calculator</li>
-    </ul>
-</section>
-
-<section>
-    <h2>HashMap / Design</h2>
-    <ul>
-        <li>Design HashMap</li>
-        <li>Insert Delete GetRandom O(1)</li>
-        <li>LRU Cache</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Heap / Priority Queue</h2>
-    <ul>
-        <li>Top K Frequent Words</li>
-        <li>Sliding Window Maximum</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Binary Search</h2>
-    <ul>
-        <li>Median of Two Sorted Arrays</li>
-        <li>Search in Rotated Sorted Array</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Trees</h2>
-    <ul>
-        <li>Binary Tree Level Order Traversal</li>
-        <li>Invert Binary Tree</li>
-    </ul>
-</section>
-
-<section>
-    <h2>Backtracking / Dynamic Programming</h2>
-    <ul>
-        <li>Word Break</li>
-        <li>Restore IP Addresses</li>
-        <li>Longest Palindromic Substring</li>
-    </ul>
-</section>
+</div>
 
 <footer>
-    Prepared for Interview Practice • Stay Consistent • Master the Patterns
+    Stay consistent. Re-solve. Own the pattern.
 </footer>
+
+<script>
+    const data = {
+        "Arrays / Sliding Window": [
+            "Find the Longest Equal Subarray",
+            "Maximum Length of a Concatenated String with Unique Characters",
+            "Merge Sorted Array",
+            "Sliding Window Maximum",
+            "Meeting Rooms"
+        ],
+        "Strings": [
+            "Longest Substring Without Repeating Characters",
+            "Longest Palindromic Substring",
+            "String Compression",
+            "Restore IP Addresses",
+            "Word Break",
+            "Top K Frequent Words"
+        ],
+        "Linked List": [
+            "Merge Two Sorted Lists"
+        ],
+        "Stack": [
+            "Min Stack",
+            "Basic Calculator"
+        ],
+        "HashMap / Design": [
+            "Design HashMap",
+            "Insert Delete GetRandom O(1)",
+            "LRU Cache"
+        ],
+        "Binary Search": [
+            "Median of Two Sorted Arrays",
+            "Search in Rotated Sorted Array"
+        ],
+        "Trees": [
+            "Binary Tree Level Order Traversal",
+            "Invert Binary Tree"
+        ]
+    };
+
+    const container = document.getElementById("questions");
+
+    function render() {
+        container.innerHTML = "";
+        for (let category in data) {
+            const card = document.createElement("div");
+            card.className = "card";
+            const title = document.createElement("h2");
+            title.textContent = category;
+            card.appendChild(title);
+
+            const ul = document.createElement("ul");
+            data[category].forEach(q => {
+                const li = document.createElement("li");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = q;
+                checkbox.checked = localStorage.getItem(q) === "true";
+                checkbox.onchange = () => {
+                    localStorage.setItem(q, checkbox.checked);
+                    updateProgress();
+                };
+                li.appendChild(checkbox);
+                li.appendChild(document.createTextNode(q));
+                ul.appendChild(li);
+            });
+            card.appendChild(ul);
+            container.appendChild(card);
+        }
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const total = document.querySelectorAll("input[type='checkbox']").length;
+        const completed = document.querySelectorAll("input[type='checkbox']:checked").length;
+        const percent = Math.round((completed / total) * 100);
+        const fill = document.getElementById("progressFill");
+        fill.style.width = percent + "%";
+        fill.textContent = percent + "%";
+    }
+
+    function resetProgress() {
+        if (confirm("Are you sure you want to reset progress?")) {
+            localStorage.clear();
+            render();
+        }
+    }
+
+    function filterStatus(type) {
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        checkboxes.forEach(cb => {
+            const li = cb.parentElement;
+            if (type === 'completed') {
+                li.style.display = cb.checked ? 'block' : 'none';
+            } else if (type === 'pending') {
+                li.style.display = !cb.checked ? 'block' : 'none';
+            } else {
+                li.style.display = 'block';
+            }
+        });
+    }
+
+    render();
+</script>
 
 </body>
 </html>
